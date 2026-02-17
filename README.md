@@ -113,6 +113,7 @@ Click Run (F5)
 Products:
 POST /api/products → Create Product
 GET /api/products → Get All Products
+GET /api/products/paged?page=1&pageSize=10 → Get Products with Pagination 
 
 Orders:
 POST /api/orders → Create Order
