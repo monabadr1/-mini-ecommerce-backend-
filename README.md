@@ -108,7 +108,7 @@ Front (Blazor) → Start
 
 Click Run (F5)
 
-##API Endpoints:
+## API Endpoints:
 
 Products:
 POST /api/products → Create Product
@@ -118,7 +118,7 @@ Orders:
 POST /api/orders → Create Order
 GET /api/orders/{id} → Get Order by Id
 
-##Sample Request:
+## Sample Request:
 Create product:
 POST /api/products
 {
