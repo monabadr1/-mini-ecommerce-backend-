@@ -97,11 +97,12 @@ Update-Database
 
 ## Useful URLs
 
-Swagger (API Documentation):
-https://localhost:<API_PORT>/swagger
-/n
-Blazor UI:
-https://localhost:<FRONT_PORT>/products 
+- Swagger (API Documentation):  
+  https://localhost:<API_PORT>/swagger  
+
+- Blazor UI:  
+  https://localhost:<FRONT_PORT>/products
+
 
 ## Run Using Visual Studio
 Right click the solution → Set Startup Projects
@@ -144,10 +145,16 @@ GET /api/orders/{id} → Get Order by Id
 POST /api/orders
 ```json
 {
-  "name": "Laptop",
-  "price": 1000,
-  "availableQuantity": 10
+  "customerName": "Name",
+  "customerEmail": "Name@email.com",
+  "items": [
+    {
+      "productId": 1,
+      "quantity": 2
+    }
+  ]
 }
+```
 
 
 
