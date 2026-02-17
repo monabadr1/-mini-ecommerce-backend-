@@ -84,12 +84,16 @@ Application/appsettings.json
   "Default": "Server=(localdb)\\MSSQLLocalDB;Database=MiniShopDb;Trusted_Connection=True;TrustServerCertificate=True;"
 }
 ```
-3.Database Migrations (Visual Studio) :
+## Database Migrations (Visual Studio)
+
 Tools → NuGet Package Manager → Package Manager Console
+
 Run the following commands:
-1.Add-Migration InitialCreate
-/n
-2.Update-Database
+
+```powershell
+Add-Migration InitialCreate
+Update-Database
+```
 
 ## Useful URLs
 
