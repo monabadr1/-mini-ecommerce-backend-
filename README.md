@@ -129,8 +129,8 @@ POST /api/products
 create order:
 POST /api/orders
 {
-  "customerName": "Mona",
-  "customerEmail": "mona@email.com",
+  "customerName": "Name",
+  "customerEmail": "Name@email.com",
   "items": [
     { "productId": 1, "quantity": 2 } ]}
 
