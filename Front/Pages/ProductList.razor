@@ -1,0 +1,160 @@
+﻿@page "/"
+@using Shared
+@inject Front.Consumer.ProductConsumer ProductConsumer
+
+<div class="d-flex align-items-center justify-content-between mb-3">
+    <h3 class="m-0">Products</h3>
+
+    <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-outline-secondary btn-sm" disabled="@(paged == null || page <= 1)" @onclick="Prev">
+            Prev
+        </button>
+
+        <span class="small text-muted">
+            @(paged == null ? "" : $"Page {paged.Page} of {paged.TotalPages}")
+        </span>
+
+        <button class="btn btn-outline-secondary btn-sm" disabled="@(paged == null || page >= paged.TotalPages)" @onclick="Next">
+            Next
+        </button>
+
+        <select class="form-select form-select-sm" style="width:120px" @onchange="ChangePageSize" disabled="@(paged == null)">
+            <option value="6" selected="@(pageSize == 6)">6</option>
+            <option value="12" selected="@(pageSize == 12)">12</option>
+            <option value="24" selected="@(pageSize == 24)">24</option>
+        </select>
+    </div>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(error))
+{
+    <div class="alert alert-danger">@error</div>
+}
+
+@if (paged == null)
+{
+    <div class="d-flex align-items-center gap-2">
+        <div class="spinner-border" role="status" aria-hidden="true"></div>
+        <span>Loading...</span>
+    </div>
+}
+else if (paged.Items.Count == 0)
+{
+    <div class="alert alert-info">No products found.</div>
+}
+else
+{
+    <div class="row g-3">
+        @foreach (var p in paged.Items)
+        {
+            <div class="col-12 col-sm-6 col-lg-6">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="card-title mb-1">@p.Name</h5>
+                                <div class="text-muted small">ID: @p.Id</div>
+                            </div>
+
+                            <span class="badge bg-dark">
+                                @p.Price
+                            </span>
+                        </div>
+
+                        <hr />
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted">Available</span>
+
+                            <span class="fw-semibold @(p.AvailableQuatity == 0 ? "text-danger" : "")">
+                                @p.AvailableQuatity
+                            </span>
+                        </div>
+
+                        @if (p.AvailableQuatity == 0)
+                        {
+                            <div class="mt-2 small text-danger">
+                                Out of stock
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between mt-4">
+        <div class="text-muted small">
+            Showing @paged.Items.Count item(s) — Total: @paged.TotalCount
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-secondary" disabled="@(page <= 1)" @onclick="Prev">Prev</button>
+            <span>Page @paged.Page of @paged.TotalPages</span>
+            <button class="btn btn-secondary" disabled="@(page >= paged.TotalPages)" @onclick="Next">Next</button>
+        </div>
+    </div>
+}
+
+@code {
+    private PagedResult<ProductDto>? paged;
+    private string? error;
+
+    private int page = 1;
+    private int pageSize = 12;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Load();
+    }
+
+    private async Task Load()
+    {
+        try
+        {
+            error = null;
+            paged = null; // show loading
+            paged = await ProductConsumer.GetPagedProductsAsync(page, pageSize);
+
+            // Safety: لو الصفحة خرجت برّه بعد تغيير pageSize أو لو TotalPages أقل
+            if (paged.TotalPages > 0 && page > paged.TotalPages)
+            {
+                page = paged.TotalPages;
+                paged = await ProductConsumer.GetPagedProductsAsync(page, pageSize);
+            }
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+            paged = new PagedResult<ProductDto> { Page = page, PageSize = pageSize };
+        }
+    }
+
+    private async Task Next()
+    {
+        if (paged != null && page < paged.TotalPages)
+        {
+            page++;
+            await Load();
+        }
+    }
+
+    private async Task Prev()
+    {
+        if (page > 1)
+        {
+            page--;
+            await Load();
+        }
+    }
+
+    private async Task ChangePageSize(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out var size))
+        {
+            pageSize = size;
+            page = 1;
+            await Load();
+        }
+    }
+}
