@@ -127,21 +127,27 @@ Orders:
 POST /api/orders → Create Order
 GET /api/orders/{id} → Get Order by Id
 
-## Sample Request:
-Create product:
-POST /api/products
+## Sample Requests
+
+### Create Product
+**POST** `/api/products`
+
+```json
 {
   "name": "Laptop",
   "price": 1000,
   "availableQuantity": 10
 }
-create order:
+```
+### Create order
+**POST** `/api/orders`
 POST /api/orders
+```json
 {
-  "customerName": "Name",
-  "customerEmail": "Name@email.com",
-  "items": [
-    { "productId": 1, "quantity": 2 } ]}
+  "name": "Laptop",
+  "price": 1000,
+  "availableQuantity": 10
+}
 
 
 
