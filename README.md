@@ -88,12 +88,14 @@ Application/appsettings.json
 Tools → NuGet Package Manager → Package Manager Console
 Run the following commands:
 1.Add-Migration InitialCreate
+/n
 2.Update-Database
 
 ## Useful URLs
 
 Swagger (API Documentation):
 https://localhost:<API_PORT>/swagger
+/n
 Blazor UI:
 https://localhost:<FRONT_PORT>/products 
 
