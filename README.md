@@ -117,16 +117,29 @@ Front (Blazor) → Start
 
 Click Run (F5)
 
-## API Endpoints:
+## API Endpoints
 
-Products:
-POST /api/products → Create Product
-GET /api/products → Get All Products
-GET /api/products/paged?page=1&pageSize=10 → Get Products with Pagination 
+### Products
 
-Orders:
-POST /api/orders → Create Order
-GET /api/orders/{id} → Get Order by Id
+- **POST** `/api/products`  
+  → Create Product
+
+- **GET** `/api/products`  
+  → Get All Products
+
+- **GET** `/api/products/paged?page=1&pageSize=10`  
+  → Get Products with Pagination
+
+---
+
+### Orders
+
+- **POST** `/api/orders`  
+  → Create Order
+
+- **GET** `/api/orders/{id}`  
+  → Get Order by Id
+
 
 ## Sample Requests
 
